@@ -1,0 +1,5 @@
+/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build/CMakeFiles/rebuild_cache.dir
+/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build/CMakeFiles/edit_cache.dir
+/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build/CMakeFiles/Server.dir
+/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build/src/CMakeFiles/rebuild_cache.dir
+/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build/src/CMakeFiles/edit_cache.dir

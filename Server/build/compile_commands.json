@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build",
+  "command": "/usr/bin/c++  -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/.   -pthread   -std=gnu++17 -o CMakeFiles/Server.dir/src/main.cpp.o -c /home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/main.cpp",
+  "file": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/main.cpp"
+},
+{
+  "directory": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build",
+  "command": "/usr/bin/c++  -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/.   -pthread   -std=gnu++17 -o CMakeFiles/Server.dir/src/server.cpp.o -c /home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/server.cpp",
+  "file": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/server.cpp"
+},
+{
+  "directory": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/build",
+  "command": "/usr/bin/c++  -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/.   -pthread   -std=gnu++17 -o CMakeFiles/Server.dir/src/database.cpp.o -c /home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/database.cpp",
+  "file": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Server/src/database.cpp"
+}
+]
