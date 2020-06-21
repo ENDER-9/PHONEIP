@@ -6,5 +6,7 @@ PRIVATE
     server.cpp 
     database.h 
     database.cpp 
-)
+    person.h
+    person.cpp 
+}
 
