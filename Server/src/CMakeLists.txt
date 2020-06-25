@@ -7,6 +7,7 @@ PRIVATE
     database.h 
     database.cpp 
     person.h
-    person.cpp 
-}
+    person.cpp
+)
+
 
