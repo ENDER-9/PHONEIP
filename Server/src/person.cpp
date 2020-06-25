@@ -2,22 +2,22 @@
 
 
 // Methods to get data
-std::string_view Person::getFirstName () const {
+std::string Person::getFirstName () const{
     return firstName;
 }
-std::string_view Person::getLastName () const {
+std::string Person::getLastName () const {
     return lastName;
 }
-std::string_view Person::getBirthday () const {
+std::string Person::getBirthday () const {
     return birthday;
 }
-std::string_view Person::getPhoneNumber () const {
+std::string Person::getPhoneNumber () const {
     return phoneNumber;
 }
-std::string_view Person::getStreet () const {
+std::string Person::getStreet () const {
     return street;
 }
-std::string_view Person::getCity () const {
+std::string Person::getCity () const {
     return city;
 }
 int Person::getPostcode () const {

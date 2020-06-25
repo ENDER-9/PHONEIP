@@ -10,12 +10,12 @@ struct Person {
     }
 
     // Methods to get data
-    std::string_view getFirstName () const;
-    std::string_view getLastName () const;
-    std::string_view getBirthday () const;
-    std::string_view getPhoneNumber () const;
-    std::string_view getStreet () const;
-    std::string_view getCity () const;
+    std::string getFirstName () const;
+    std::string getLastName () const;
+    std::string getBirthday () const;
+    std::string getPhoneNumber () const;
+    std::string getStreet () const;
+    std::string getCity () const;
     int getPostcode () const;
 
     // Methods to change data in variables
