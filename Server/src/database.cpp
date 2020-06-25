@@ -269,6 +269,6 @@ const int Database::getPostcode (std::string firstName, std::string lastName){
     }
     else {
         closeDb ();
-        return "Postcode was not found";
+        return 0;
     }
 }
