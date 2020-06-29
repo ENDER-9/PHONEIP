@@ -1,12 +1,10 @@
 #include <iostream>
 #include "server.h"
 
-int main (int argc, char* argv[]) {
-    
-    if(argc != 2) {
-        std::cout << "the amount of arguments is wrong";
-    }
-    unsigned short port = atoi (argv[1]);
+int main () {
+
+    unsigned short port = 3000;
     Server server (port);
     server.start ();
+
 }
