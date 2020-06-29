@@ -12,6 +12,8 @@ void Database::closeDb() {
     sqlite3_close(db);
 }
 
+
+
 void Database::createTable() {
     openDb(fileName);
     rc = sqlite3_exec(db,
@@ -26,23 +28,23 @@ void Database::createTable() {
 
 std::string Database::addPerson (Person person) {
 
-    openDb ("fileName.db");
+    openDb (fileName);
     sqlite3_stmt* stmt;
-    rc = sqlite3_prepare_v2 (db, "INSERT INTO Person (FirstName, LastName, Birthday, PhoneNumber, Street, City, Postcode) VALUSE(?, ?, ?, ?, ?, ?, ?)", -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2 (db, "INSERT INTO Person (FirstName, LastName, Birthday, PhoneNumber, Street, City, Postcode) VALUES (?, ?, ?, ?, ?, ?, ?)", -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
-        std::cout << sqlite3_errmsg (db);
+        std::cout << "Error preparing statement: " << sqlite3_errmsg (db);
     }
     //binding the values to the parameter
-    rc = sqlite3_bind_text (stmt, 1, person.getFirstName().c_str(), person.getFirstName().length (), NULL);
-    rc = sqlite3_bind_text (stmt, 2, person.getLastName ().c_str (), person.getLastName ().length (), NULL);
-    rc = sqlite3_bind_text (stmt, 3, person.getBirthday ().c_str (), person.getBirthday().length (), NULL);
-    rc = sqlite3_bind_text (stmt, 4, person.getPhoneNumber ().c_str (), person.getPhoneNumber().length (), NULL);
-    rc = sqlite3_bind_text (stmt, 5, person.getStreet ().c_str (), person.getStreet ().length (), NULL);
-    rc = sqlite3_bind_text (stmt, 6, person.getCity ().c_str (), person.getCity ().length (), NULL);
+    rc = sqlite3_bind_text (stmt, 1, person.getFirstName ().c_str (), person.getFirstName ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 2, person.getLastName ().c_str (), person.getLastName ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 3, person.getBirthday ().c_str (), person.getBirthday ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 4, person.getPhoneNumber ().c_str (), person.getPhoneNumber ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 5, person.getStreet ().c_str (), person.getStreet ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 6, person.getCity ().c_str (), person.getCity ().length (), SQLITE_TRANSIENT);
     rc = sqlite3_bind_int (stmt, 7, person.getPostcode ());
 
     if(rc != SQLITE_OK) {
-        std::cout << sqlite3_errmsg (db);
+        std::cerr << "Error bind binding arguments: " << sqlite3_errmsg (db);
     }
     sqlite3_step (stmt);
     sqlite3_finalize (stmt);
@@ -66,8 +68,8 @@ std::string Database::deletePerson (std::string firstName, std::string lastName)
         sqlite3_stmt* deleteStmt;
         rc = sqlite3_prepare_v2 (db, "DELETE FROM Person WHERE FirstName = ? AND LastName = ?", -1, &deleteStmt, NULL);
 
-        sqlite3_bind_text (deleteStmt, 1, firstName.c_str (), firstName.length (), NULL);
-        sqlite3_bind_text (deleteStmt, 2, lastName.c_str (), lastName.length (), NULL);
+        sqlite3_bind_text (deleteStmt, 1, firstName.c_str (), firstName.length (), SQLITE_TRANSIENT);
+        sqlite3_bind_text (deleteStmt, 2, lastName.c_str (), lastName.length (), SQLITE_TRANSIENT);
         sqlite3_step (deleteStmt);
         sqlite3_finalize(deleteStmt);
         closeDb ();
@@ -119,7 +121,7 @@ std::string Database::modifyPerson (Person person){
 }
 
 //Methods for returning single information
-const std::string Database::getFirstName (std::string firstName, std::string lastName){
+const Person Database::getPersonInformation (std::string firstName, std::string lastName){
     openDb (fileName);
     sqlite3_stmt* stmt;
     // first check if the Person is in the database
@@ -133,142 +135,32 @@ const std::string Database::getFirstName (std::string firstName, std::string las
     if (sqlite3_step (stmt) == SQLITE_ROW) {
         const unsigned char* returnedFirstName = sqlite3_column_text (stmt, 1);
         std::string str_returnedFirstName = reinterpret_cast<char const*> (returnedFirstName);
-        closeDb ();
-        return str_returnedFirstName;
-    }
-    else {
-        closeDb ();
-        return "First name was not found";
-    }
-}
-const std::string Database::getLastName (std::string firstName, std::string lastName){
-    openDb (fileName);
-    sqlite3_stmt* stmt;
-    // first check if the Person is in the database
-    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
-    }
-    sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
-    sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
-    if (sqlite3_step (stmt) == SQLITE_ROW) {
+
         const unsigned char* returnedLastName = sqlite3_column_text (stmt, 2);
         std::string str_returnedLastName = reinterpret_cast<char const*> (returnedLastName);
-        closeDb ();
-        return str_returnedLastName;
-    }
-    else {
-        closeDb ();
-        return "Last name was not found";
-    }
-}
-const std::string Database::getBirthday (std::string firstName, std::string lastName){
-    openDb (fileName);
-    sqlite3_stmt* stmt;
-    // first check if the Person is in the database
-    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
-    }
-    sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
-    sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
-    if (sqlite3_step (stmt) == SQLITE_ROW) {
+
         const unsigned char* returnedBirthday = sqlite3_column_text (stmt, 3);
         std::string str_returnedBirthday = reinterpret_cast<char const*> (returnedBirthday);
-        closeDb ();
-        return str_returnedBirthday;
-    }
-    else {
-        closeDb ();
-        return "Birthday was not found";
-    }
-}
-const std::string Database::getPhoneNumber (std::string firstName, std::string lastName){
-    openDb (fileName);
-    sqlite3_stmt* stmt;
-    // first check if the Person is in the database
-    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
-    }
-    sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
-    sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
-    if (sqlite3_step (stmt) == SQLITE_ROW) {
+
         const unsigned char* returnedPhoneNumber = sqlite3_column_text (stmt, 4);
         std::string str_returnedPhoneNumber = reinterpret_cast<char const*> (returnedPhoneNumber);
-        closeDb ();
-        return str_returnedPhoneNumber;
-    }
-    else {
-        closeDb ();
-        return "Phonenumber was not found";
-    }
-}
-const std::string Database::getStreet (std::string firstName, std::string lastName){
-    openDb (fileName);
-    sqlite3_stmt* stmt;
-    // first check if the Person is in the database
-    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
-    }
-    sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
-    sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
-    if (sqlite3_step (stmt) == SQLITE_ROW) {
+
         const unsigned char* returnedStreet = sqlite3_column_text (stmt, 5);
         std::string str_returnedStreet = reinterpret_cast<char const*> (returnedStreet);
-        closeDb ();
-        return str_returnedStreet;
-    }
-    else {
-        closeDb ();
-        return "Street was not found";
-    }
-}
-const std::string Database::getCity (std::string firstName, std::string lastName){
-    openDb (fileName);
-    sqlite3_stmt* stmt;
-    // first check if the Person is in the database
-    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
-    }
-    sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
-    sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
-    if (sqlite3_step (stmt) == SQLITE_ROW) {
+
         const unsigned char* returnedCity = sqlite3_column_text (stmt, 6);
         std::string str_returnedCity = reinterpret_cast<char const*> (returnedCity);
-        closeDb ();
-        return str_returnedCity;
-    }
-    else {
-        closeDb ();
-        return "City was not found";
-    }
-}
-const int Database::getPostcode (std::string firstName, std::string lastName){
-    openDb (fileName);
-    sqlite3_stmt* stmt;
-    // first check if the Person is in the database
-    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
-    }
-    sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
-    sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
-    if (sqlite3_step (stmt) == SQLITE_ROW) {
+
         int returnedPostcode = sqlite3_column_int (stmt, 7);
+
+        Person returnedPerson (str_returnedFirstName, str_returnedLastName, str_returnedBirthday, str_returnedPhoneNumber, str_returnedStreet, str_returnedCity, returnedPostcode);
+
         closeDb ();
-        return returnedPostcode;
+        return returnedPerson;
     }
     else {
         closeDb ();
-        return 0;
+        Person errorPerson ("-", "-", "-", "-", "-", "-", 0);
+        return errorPerson;
     }
 }
