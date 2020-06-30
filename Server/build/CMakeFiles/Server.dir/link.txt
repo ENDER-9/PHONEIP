@@ -1,1 +1,0 @@
-/usr/bin/c++   -pthread   CMakeFiles/Server.dir/src/main.cpp.o CMakeFiles/Server.dir/src/server.cpp.o CMakeFiles/Server.dir/src/database.cpp.o  -o Server  /usr/lib64/libboost_system.so.1.72.0 -lsqlite3 
