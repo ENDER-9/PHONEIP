@@ -13,7 +13,7 @@ class Server {
     void start ();
     void retrieveInformation();
     void sendInformation (std::string answerToSend);
-
+    void sendInformation (Person person);
 
 
     private:

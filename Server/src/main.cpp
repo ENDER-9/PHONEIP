@@ -5,6 +5,8 @@ int main () {
 
     unsigned short port = 3000;
     Server server (port);
-    server.start ();
+    while(true) {
+        server.start ();
+    }
 
 }
