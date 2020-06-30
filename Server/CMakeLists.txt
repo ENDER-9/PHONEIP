@@ -9,13 +9,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(Boost 1.40.0 REQUIRED system)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ADDITIONAL_CFLAGS} -g")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 add_executable(Server)
 set_property(TARGET Server
     PROPERTY CXX_STANDARD 17)
 
-TARGET_LINK_LIBRARIES( Server LINK_PUBLIC ${Boost_LIBRARIES} )
+set(JSON_BuildTests OFF CACHE INTERNAL "") 
+include(FetchContent)
+FetchContent_Declare(json GIT_REPOSITORY https://github.com/nlohmann/json.git)
+FetchContent_MakeAvailable(json)
+
+TARGET_LINK_LIBRARIES( Server LINK_PUBLIC ${Boost_LIBRARIES} nlohmann_json::nlohmann_json)
 target_link_libraries(Server LINK_PUBLIC sqlite3)
 
 add_subdirectory(src)
