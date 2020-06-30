@@ -2,6 +2,8 @@ target_include_directories(Spyculus PRIVATE .)
 target_sources(Spyculus 
 PRIVATE 
     main.cpp
-    main.qml
+    person.cpp 
+    person.h 
 )
+add_subdirectory(qml)
 

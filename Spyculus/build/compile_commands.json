@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Spyculus/build",
-  "command": "/usr/bin/c++  -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_QMLMODELS_LIB -DQT_QML_LIB -DQT_QUICK_LIB -I/home/julian/Files/Programmieren/Cplusplus/Spyculus/Spyculus/src/. -isystem /usr/include/qt -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++ -isystem /usr/include/qt/QtQuick -isystem /usr/include/qt/QtQmlModels -isystem /usr/include/qt/QtQml -isystem /usr/include/qt/QtNetwork -isystem /usr/include/qt/QtGui   -pthread   -fPIC -std=gnu++17 -o CMakeFiles/Spyculus.dir/src/main.cpp.o -c /home/julian/Files/Programmieren/Cplusplus/Spyculus/Spyculus/src/main.cpp",
-  "file": "/home/julian/Files/Programmieren/Cplusplus/Spyculus/Spyculus/src/main.cpp"
-}
-]
