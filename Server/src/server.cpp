@@ -62,7 +62,8 @@ void Server::retrieveInformation() {
 void Server::sendInformation(std::string answerToSend) {
     nlohmann::json personJson;
     personJson["message"] = answerToSend;
-    tcpSocket.write_some (boost::asio::buffer (personJson.dump (), personJson.dump ().length ()));
+    auto jsonString = personJson.dump ();
+    tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
 }
 
 void Server::sendInformation(Person person) {
@@ -74,7 +75,8 @@ void Server::sendInformation(Person person) {
     personJson["Street"] = person.getStreet();
     personJson["City"] = person.getCity();
     personJson["Postcode"] = person.getPostcode();
-    tcpSocket.write_some (boost::asio::buffer (personJson.dump (), personJson.dump ().length ()));
+    auto jsonString = personJson.dump ();
+    tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
 }
 
 //method overloading for sending asked person information to the client
