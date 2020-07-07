@@ -6,7 +6,11 @@ struct Person {
 
     public:
     Person (std::string firstName_, std::string lastName_, std::string birthday_, std::string phoneNumber_, std::string street_, std::string city_, int postcode_)
-    : firstName (firstName), lastName (lastName_), birthday (birthday_), phoneNumber (phoneNumber_), street (street_), city (city_), postcode (postcode_) {
+    : firstName (firstName_), lastName (lastName_), birthday (birthday_), phoneNumber (phoneNumber_), street (street_), city (city_), postcode (postcode_) {
+    }
+
+    Person () : firstName(""), lastName(""), birthday(""), phoneNumber(""), street(""), city(""), postcode(0) {
+
     }
 
     // Methods to get data
