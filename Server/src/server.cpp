@@ -8,6 +8,7 @@ void Server::start() {
         acceptor.accept (tcpSocket);
         std::cout << "Client connected to the Server" << std::endl;
         retrieveInformation ();
+        tcpSocket.close ();
 }
 
 void Server::retrieveInformation() {
@@ -17,7 +18,7 @@ void Server::retrieveInformation() {
     std::string message (buffer.begin (), buffer.begin () + size);
     nlohmann::json personJson = nlohmann::json::parse (message);
 
-    if (personJson["command"] == "addPerson") {
+    if (personJson["Command"] == "AddPerson") {
         std::string firstName = personJson["FirstName"];
         std::string lastName = personJson["LastName"];
         std::string birthday = personJson["Birthday"];
@@ -29,14 +30,14 @@ void Server::retrieveInformation() {
         sendInformation (returnedServerAnswer);
         std::cout << "Person added" << std::endl;
     }
-    else if (personJson["command"] == "deletePerson") {
+    else if (personJson["Command"] == "DeletePerson") {
         std::string firstName = personJson["FirstName"];
         std::string lastName = personJson["LastName"];
         std::string returnedServerAnswer = database.deletePerson (firstName, lastName);
         sendInformation (returnedServerAnswer);
         std::cout << "Person deleted";
     }
-    else if(personJson["command"] == "modifyPerson") {
+    else if (personJson["Command"] == "ModifyPerson") {
         std::string firstName = personJson["FirstName"];
         std::string lastName = personJson["LastName"];
         std::string birthday = personJson["Birthday"];
@@ -47,7 +48,7 @@ void Server::retrieveInformation() {
         std::string returnedServerAnswer = database.modifyPerson (Person (firstName, lastName, birthday, phoneNumber, street, city, postcode));
         sendInformation (returnedServerAnswer);
     }
-    else if(personJson["command"] == "getPersonInformation") {
+    else if (personJson["Command"] == "GetPersonInformation") {
         std::string firstName = personJson["FirstName"];
         std::string lastName = personJson["LastName"];
         Person returnedServerAnswer = database.getPersonInformation (firstName, lastName);
@@ -61,8 +62,9 @@ void Server::retrieveInformation() {
 //method for sending normal status information back to the client
 void Server::sendInformation(std::string answerToSend) {
     nlohmann::json personJson;
-    personJson["message"] = answerToSend;
-    tcpSocket.write_some (boost::asio::buffer (personJson.dump (), personJson.dump ().length ()));
+    personJson["Message"] = answerToSend;
+    auto jsonString = personJson.dump ();
+    tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
 }
 
 void Server::sendInformation(Person person) {
@@ -74,7 +76,8 @@ void Server::sendInformation(Person person) {
     personJson["Street"] = person.getStreet();
     personJson["City"] = person.getCity();
     personJson["Postcode"] = person.getPostcode();
-    tcpSocket.write_some (boost::asio::buffer (personJson.dump (), personJson.dump ().length ()));
+    auto jsonString = personJson.dump ();
+    tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
 }
 
 //method overloading for sending asked person information to the client
