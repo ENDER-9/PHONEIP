@@ -2,41 +2,44 @@
 #include <iostream>
 
 
-
-
-std::string Client::connectToServer() {
+std::string Client::connectToServer () {
     tcpSocket.connect (server);
     return "";
 }
 
-nlohmann::json Client::readServerAnswer() {
-std::array<char, 1024> buffer;
+nlohmann::json Client::readServerAnswer () {
+    std::array<char, 1024> buffer;
     std::size_t size = tcpSocket.read_some (boost::asio::buffer (buffer, buffer.size ()));
-    std::string message (buffer.begin(), buffer.begin() + size);
+    std::string message (buffer.begin (), buffer.begin () + size);
     nlohmann::json jsonString = nlohmann::json::parse (message);
     return jsonString;
 }
 
 
-std::string Client::sendAddPersonServer(Person& person) {
+std::string Client::sendAddPersonServer (Person& person) {
     nlohmann::json personJson;
+    // pack person object to json object
     personJson["Command"] = "AddPerson";
     personJson["FirstName"] = person.getFirstName ();
     personJson["LastName"] = person.getLastName ();
     personJson["Birthday"] = person.getBirthday ();
     personJson["PhoneNumber"] = person.getPhoneNumber ();
+    personJson["LandlineNumber"] = person.getLandlineNumber ();
     personJson["Street"] = person.getStreet ();
     personJson["City"] = person.getCity ();
     personJson["Postcode"] = person.getPostcode ();
+    // create json object string
     auto jsonString = personJson.dump ();
     connectToServer ();
+    // send json string
     tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
+    // read server answer
     nlohmann::json parsedReturnedJsonString = readServerAnswer ();
     tcpSocket.close ();
     return parsedReturnedJsonString["Message"];
 }
 
-std::string Client::sendDeletePersonServer(const std::string& firstName, const std::string& lastName) {
+std::string Client::sendDeletePersonServer (const std::string& firstName, const std::string& lastName) {
     nlohmann::json personJson;
     personJson["Command"] = "DeletePerson";
     personJson["FirstName"] = firstName;
@@ -49,13 +52,14 @@ std::string Client::sendDeletePersonServer(const std::string& firstName, const s
     return parsedReturnedJsonString["Message"];
 }
 
-std::string Client::sendModifyPersonServer(Person& person) {
+std::string Client::sendModifyPersonServer (Person& person) {
     nlohmann::json personJson;
     personJson["Command"] = "ModifyPerson";
     personJson["FirstName"] = person.getFirstName ();
     personJson["LastName"] = person.getLastName ();
     personJson["Birthday"] = person.getBirthday ();
     personJson["PhoneNumber"] = person.getPhoneNumber ();
+    personJson["LandlineNumber"] = person.getLandlineNumber ();
     personJson["Street"] = person.getStreet ();
     personJson["City"] = person.getCity ();
     personJson["Postcode"] = person.getPostcode ();
@@ -67,7 +71,7 @@ std::string Client::sendModifyPersonServer(Person& person) {
     return parsedReturnedJsonString["Message"];
 }
 
-Person Client::sendGetPersonInformationServer(const std::string& firstName, const std::string& lastName) {
+Person Client::sendGetPersonInformationServer (const std::string& firstName, const std::string& lastName) {
     nlohmann::json personJson;
     personJson["Command"] = "GetPersonInformation";
     personJson["FirstName"] = firstName;
@@ -75,11 +79,11 @@ Person Client::sendGetPersonInformationServer(const std::string& firstName, cons
     auto jsonString = personJson.dump ();
     connectToServer ();
     tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
+    // create Person object with returned json string
     nlohmann::json parsedReturnedJsonString = readServerAnswer ();
     Person returnedPerson (parsedReturnedJsonString["FirstName"], parsedReturnedJsonString["LastName"], parsedReturnedJsonString["Birthday"],
-                           parsedReturnedJsonString["PhoneNumber"], parsedReturnedJsonString["Street"], parsedReturnedJsonString["City"], parsedReturnedJsonString["Postcode"]);
+                           parsedReturnedJsonString["PhoneNumber"], parsedReturnedJsonString["LandlineNumber"], parsedReturnedJsonString["Street"],
+                           parsedReturnedJsonString["City"], parsedReturnedJsonString["Postcode"]);
     tcpSocket.close ();
     return returnedPerson;
 }
-    
-    

@@ -14,6 +14,9 @@ std::string Person::getBirthday () const {
 std::string Person::getPhoneNumber () const {
     return phoneNumber;
 }
+std::string Person::getLandlineNumber () const {
+    return landlineNumber;
+}
 std::string Person::getStreet () const {
     return street;
 }
@@ -25,24 +28,27 @@ int Person::getPostcode () const {
 }
 // Methods to change data in Variables
 
-void Person::setFirstName (std::string input) {
-    firstName = move (input);
+void Person::setFirstName (std::string& input) {
+    firstName = input;
 }
-void Person::setLastName (std::string input) {
-    lastName = move (input);
+void Person::setLastName (std::string& input) {
+    lastName = input;
 }
-void Person::setBirthday (std::string input) {
-    birthday = move (input);
+void Person::setBirthday (std::string& input) {
+    birthday = input;
 }
-void Person::setPhoneNumber (std::string input) {
-    phoneNumber = move (input);
+void Person::setPhoneNumber (std::string& input) {
+    phoneNumber = input;
 }
-void Person::setStreet (std::string input) {
-    street = move (input);
+void Person::setLandlineNumber (std::string& input) {
+    landlineNumber = input;
 }
-void Person::setCity (std::string input) {
-    city = move (input);
+void Person::setStreet (std::string& input) {
+    street = input;
 }
-void Person::setPostcode (int input) {
+void Person::setCity (std::string& input) {
+    city = input;
+}
+void Person::setPostcode (int& input) {
     postcode = input;
 }

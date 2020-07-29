@@ -1,0 +1,18 @@
+.section-visible {
+    height: 100%;
+    width: calc(100% - 200px);
+    margin-left: 200px;
+    position: fixed
+}
+
+.section-invisible {
+    height: 100%;
+    margin-left: 200px;
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+}
+
+
+
+

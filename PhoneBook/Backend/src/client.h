@@ -10,8 +10,6 @@ class Client {
     Client (unsigned short port) : server (boost::asio::ip::address::from_string ("127.0.0.1"), port), tcpSocket (service) {
     }
 
-    std::string connectToServer ();
-    nlohmann::json readServerAnswer ();
     std::string sendAddPersonServer (Person& person);
     std::string sendDeletePersonServer (const std::string& firstName, const std::string& lastName);
     std::string sendModifyPersonServer (Person& person);
@@ -19,6 +17,8 @@ class Client {
 
 
     private:
+    std::string connectToServer ();
+    nlohmann::json readServerAnswer ();
     boost::asio::io_context service;
     boost::asio::ip::tcp::endpoint server;
     boost::asio::ip::tcp::socket tcpSocket;

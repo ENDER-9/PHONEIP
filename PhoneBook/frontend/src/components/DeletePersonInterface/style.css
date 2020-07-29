@@ -1,0 +1,14 @@
+#deletePersonInterface h1 {
+    color: #fff;
+    text-align: center;
+}
+
+.section-visible .topbar {
+    height: 30px;
+    background: #24252c;  
+}
+
+.section-visible .topbar h3 {
+    color: #fff;
+}
+
