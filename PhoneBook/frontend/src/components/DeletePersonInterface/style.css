@@ -3,12 +3,12 @@
     text-align: center;
 }
 
-.section-visible .topbar {
+.topbar {
     height: 30px;
     background: #24252c;  
 }
 
-.section-visible .topbar h3 {
+.topbar h3 {
     color: #fff;
 }
 
