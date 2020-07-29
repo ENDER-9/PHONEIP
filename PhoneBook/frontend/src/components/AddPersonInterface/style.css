@@ -3,3 +3,12 @@
     text-align: center;
 }
 
+.topbar {
+    height: 30px;
+    background: #24252c;  
+}
+
+.topbar h3 {
+    color: #fff;
+}
+
