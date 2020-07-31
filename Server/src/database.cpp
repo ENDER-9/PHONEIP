@@ -18,7 +18,7 @@ void Database::createTable () {
     rc = sqlite3_exec (db,
                        "CREATE TABLE IF NOT EXISTS Person(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FirstName TEXT NOT NULL, LastName TEXT NOT NULL, Birthday TEXT "
                        "NOT NULL, "
-                       "PhoneNumber TEXT NOT NULL, Street TEXT NOT NULL, City TEXT NOT NULL, Postcode INT NOT NULL)",
+                       "PhoneNumber TEXT NOT NULL, LandlineNumber TEXT NOT NULL, Street TEXT NOT NULL, City TEXT NOT NULL, Postcode INT NOT NULL)",
                        NULL, 0, NULL);
     if (rc != SQLITE_OK) {
         std::cerr << "Error creating table" << sqlite3_errmsg (db);
@@ -30,7 +30,8 @@ std::string Database::addPerson (Person person) {
 
     openDb (fileName);
     sqlite3_stmt* stmt;
-    rc = sqlite3_prepare_v2 (db, "INSERT INTO Person (FirstName, LastName, Birthday, PhoneNumber, Street, City, Postcode) VALUES (?, ?, ?, ?, ?, ?, ?)", -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2 (db, "INSERT INTO Person (FirstName, LastName, Birthday, PhoneNumber, LandlineNumber, Street, City, Postcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                             -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
         std::cout << "Error preparing statement: " << sqlite3_errmsg (db);
     }
@@ -39,9 +40,10 @@ std::string Database::addPerson (Person person) {
     rc = sqlite3_bind_text (stmt, 2, person.getLastName ().c_str (), person.getLastName ().length (), SQLITE_TRANSIENT);
     rc = sqlite3_bind_text (stmt, 3, person.getBirthday ().c_str (), person.getBirthday ().length (), SQLITE_TRANSIENT);
     rc = sqlite3_bind_text (stmt, 4, person.getPhoneNumber ().c_str (), person.getPhoneNumber ().length (), SQLITE_TRANSIENT);
-    rc = sqlite3_bind_text (stmt, 5, person.getStreet ().c_str (), person.getStreet ().length (), SQLITE_TRANSIENT);
-    rc = sqlite3_bind_text (stmt, 6, person.getCity ().c_str (), person.getCity ().length (), SQLITE_TRANSIENT);
-    rc = sqlite3_bind_int (stmt, 7, person.getPostcode ());
+    rc = sqlite3_bind_text (stmt, 5, person.getLandlineNumber ().c_str (), person.getLandlineNumber ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 6, person.getStreet ().c_str (), person.getStreet ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_text (stmt, 7, person.getCity ().c_str (), person.getCity ().length (), SQLITE_TRANSIENT);
+    rc = sqlite3_bind_int (stmt, 8, person.getPostcode ());
 
     if (rc != SQLITE_OK) {
         std::cerr << "Error bind binding arguments: " << sqlite3_errmsg (db);
@@ -94,7 +96,7 @@ std::string Database::modifyPerson (Person person) {
     // modify the Person if it is in the database
     if (sqlite3_step (stmt) == SQLITE_ROW) {
         sqlite3_stmt* modifyStmt;
-        rc = sqlite3_prepare_v2 (db, "UPDATE Books SET FirstName = ?, LastName = ?, Birthday = ?, PhoneNumber = ?, Street = ?, City = ?, Postcode = ? WHERE FirstName = ? OR LastName = ?",
+        rc = sqlite3_prepare_v2 (db, "UPDATE Books SET FirstName = ?, LastName = ?, Birthday = ?, PhoneNumber = ?, LandlineNumber = ?  Street = ?, City = ?, Postcode = ? WHERE FirstName = ? OR LastName = ?",
                                  -1, &modifyStmt, NULL);
         if (rc != SQLITE_OK) {
             std::cerr << "Error preparing modify statement: " << sqlite3_errmsg (db);
@@ -103,11 +105,12 @@ std::string Database::modifyPerson (Person person) {
         sqlite3_bind_text (modifyStmt, 2, person.getLastName ().c_str (), person.getLastName ().length (), NULL);
         sqlite3_bind_text (modifyStmt, 3, person.getBirthday ().c_str (), person.getBirthday ().length (), NULL);
         sqlite3_bind_text (modifyStmt, 4, person.getPhoneNumber ().c_str (), person.getPhoneNumber ().length (), NULL);
-        sqlite3_bind_text (modifyStmt, 5, person.getStreet ().c_str (), person.getStreet ().length (), NULL);
-        sqlite3_bind_text (modifyStmt, 6, person.getCity ().c_str (), person.getCity ().length (), NULL);
-        sqlite3_bind_int (modifyStmt, 7, person.getPostcode ());
-        sqlite3_bind_text (modifyStmt, 8, person.getFirstName ().c_str (), person.getFirstName ().length (), NULL);
-        sqlite3_bind_text (modifyStmt, 6, person.getLastName ().c_str (), person.getLastName ().length (), NULL);
+        sqlite3_bind_text (modifyStmt, 5, person.getLandlineNumber ().c_str (), person.getLandlineNumber ().length (), NULL);
+        sqlite3_bind_text (modifyStmt, 6, person.getStreet ().c_str (), person.getStreet ().length (), NULL);
+        sqlite3_bind_text (modifyStmt, 7, person.getCity ().c_str (), person.getCity ().length (), NULL);
+        sqlite3_bind_int (modifyStmt, 8, person.getPostcode ());
+        sqlite3_bind_text (modifyStmt, 9, person.getFirstName ().c_str (), person.getFirstName ().length (), NULL);
+        sqlite3_bind_text (modifyStmt, 10, person.getLastName ().c_str (), person.getLastName ().length (), NULL);
 
         sqlite3_step (modifyStmt);
         sqlite3_finalize (modifyStmt);
@@ -145,22 +148,26 @@ const Person Database::getPersonInformation (std::string firstName, std::string 
         const unsigned char* returnedPhoneNumber = sqlite3_column_text (stmt, 4);
         std::string str_returnedPhoneNumber = reinterpret_cast<char const*> (returnedPhoneNumber);
 
-        const unsigned char* returnedStreet = sqlite3_column_text (stmt, 5);
+        const unsigned char* returnedLandlineNumber = sqlite3_column_text (stmt, 5);
+        std::string str_returnedLandlineNumber = reinterpret_cast<char const*> (returnedLandlineNumber);
+
+        const unsigned char* returnedStreet = sqlite3_column_text (stmt, 6);
         std::string str_returnedStreet = reinterpret_cast<char const*> (returnedStreet);
 
-        const unsigned char* returnedCity = sqlite3_column_text (stmt, 6);
+        const unsigned char* returnedCity = sqlite3_column_text (stmt, 7);
         std::string str_returnedCity = reinterpret_cast<char const*> (returnedCity);
 
-        int returnedPostcode = sqlite3_column_int (stmt, 7);
+        int returnedPostcode = sqlite3_column_int (stmt, 8);
 
-        Person returnedPerson (str_returnedFirstName, str_returnedLastName, str_returnedBirthday, str_returnedPhoneNumber, str_returnedStreet, str_returnedCity, returnedPostcode);
+        Person returnedPerson (str_returnedFirstName, str_returnedLastName, str_returnedBirthday, str_returnedPhoneNumber, str_returnedLandlineNumber, str_returnedStreet,
+                               str_returnedCity, returnedPostcode);
 
         closeDb ();
         return returnedPerson;
     }
     else {
         closeDb ();
-        Person errorPerson ("Not found", "Not found", "Not found", "Not found", "Not found", "Not found", 0);
+        Person errorPerson ("Not found", "Not found", "Not found", "Not found", "Not found", "Not found", "Not found", 0);
         return errorPerson;
     }
 }
