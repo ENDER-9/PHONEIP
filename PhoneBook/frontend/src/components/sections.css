@@ -1,15 +1,15 @@
 .section-visible {
-    height: 100%;
-    width: calc(100% - 200px);
-    margin-left: 200px;
-    position: fixed
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .section-invisible {
     height: 100%;
     margin-left: 200px;
-    position: fixed;
     visibility: hidden;
+    position: absolute;
     opacity: 0;
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import './index.css'
 
 import Nav from './components/Nav.js'
 import SearchPersonInterface from './components/SearchPersonInterface/SearchPersonInterface.js'
@@ -12,13 +13,9 @@ class App extends React.Component {
     this.state = {
       isSearchPersonInterfaceVisible: false,
       isAddPersonInterfaceVisible: false,
-      isDeletePersonInterfaceVisible: false,
-      isModifyPersonInterfaceVisible: false
     }
     this.updateSearchPerson = this.updateSearchPerson.bind(this)
     this.updateAddPerson = this.updateAddPerson.bind(this)
-    this.updateDeletePerson = this.updateDeletePerson.bind(this)
-    this.updateModifyPerson = this.updateModifyPerson.bind(this)
   }
 
 
@@ -28,8 +25,6 @@ class App extends React.Component {
     this.setState({
       isSearchPersonInterfaceVisible: false,
       isAddPersonInterfaceVisible: false,
-      isDeletePersonInterfaceVisible: false,
-      isModifyPersonInterfaceVisible: false
     })
   }
   //functions to update the state variables
@@ -41,22 +36,14 @@ class App extends React.Component {
     this.setOrigin()
     this.setState({ isAddPersonInterfaceVisible: true })
   }
-  updateDeletePerson() {
-    this.setOrigin()
-    this.setState({ isDeletePersonInterfaceVisible: true })
-  }
-  updateModifyPerson() {
-    this.setOrigin()
-    this.setState({ isModifyPersonInterfaceVisible: true })
-  }
 
 
   render() {
     return (
       //giving the functions to Nav component in order to execute them on button click
       //giving the state variables to the specific main components in order to make the visible or not
-      <div>
-        <Nav updateSearchPerson={this.updateSearchPerson} updateAddPerson={this.updateAddPerson} updateDeletePerson={this.updateDeletePerson} updateModifyPerson={this.updateModifyPerson} />
+      <div className="origin">
+        <Nav updateSearchPerson={this.updateSearchPerson} updateAddPerson={this.updateAddPerson} />
         <SearchPersonInterface isVisible={this.state.isSearchPersonInterfaceVisible} />
         <AddPersonInterface isVisible={this.state.isAddPersonInterfaceVisible} />
         <DeletePersonInterface isVisible={this.state.isDeletePersonInterfaceVisible} />
