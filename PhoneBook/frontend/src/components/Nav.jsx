@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Nav extends React.Component {
     render() {
