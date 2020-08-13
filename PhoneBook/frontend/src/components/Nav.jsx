@@ -1,6 +1,4 @@
-import React from 'react'
-import './Nav.css'
-import './sections.css'
+import React from 'react';
 
 class Nav extends React.Component {
     render() {

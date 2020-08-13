@@ -1,6 +1,4 @@
 import React from 'react'
-import '../sections.css'
-import './style.css'
 
 class SearchPersonInterface extends React.Component {
 

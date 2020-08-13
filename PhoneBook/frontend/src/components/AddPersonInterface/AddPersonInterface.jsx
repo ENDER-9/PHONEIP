@@ -1,10 +1,39 @@
 import React from 'react'
-import '../sections.css'
-import './style.css'
+
+//var clientModule = require("bindings")("client.node");
+//module.exports = clientModule; // Just reexport it
+const clientModule = require('../../../build/Release/client.node')
 
 class AddPersonInterface extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            firstName: "",
+            lastName: "",
+            birthday: "",
+            phoneNumber: "",
+            landlineNumber: "",
+            street: "",
+            city: "",
+            postcode: null
+        }
+        this.handleChange = this.handleChange.bind(this)
+        this.submitAddPerson = this.submitAddPerson.bind(this)
+    }
+
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    submitAddPerson() {
+        clientModule.sendAddPersonServerJs(this.state.firstName, this.state.lastName, this.state.birthday, this.state.phoneNumber, this.state.landlineNumber, this.state.street, this.state.city, this.state.postcode)
+        console.log("Button pressed")
+    }
 
     render() {
+
         //decide if component is visible or not
         return (
             <div id="addPersonInterface" className={this.props.isVisible ? "section-visible" : "section-invisible"}>
@@ -25,7 +54,7 @@ class AddPersonInterface extends React.Component {
                                             <p>First name</p>
                                         </div>
                                         <div className="input-field">
-                                            <input placeholder="John" type="text" />
+                                            <input name="firstName" placeholder="John" type="text" onChange={this.handleChange} />
                                         </div>
                                     </div>
                                     <div className="lastName-inputField">
@@ -33,7 +62,7 @@ class AddPersonInterface extends React.Component {
                                             <p>Last name</p>
                                         </div>
                                         <div className="input-field">
-                                            <input placeholder="Doe" type="text" />
+                                            <input name="lastName" placeholder="Doe" type="text" onChange={this.handleChange} />
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +71,7 @@ class AddPersonInterface extends React.Component {
                                         <p>Birthday</p>
                                     </div>
                                     <div className="input-field">
-                                        <input placeholder="31.12.1900" type="text" />
+                                        <input name="birthday" placeholder="31.12.1900" type="text" onChange={this.handleChange} />
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +84,7 @@ class AddPersonInterface extends React.Component {
                                         <p>Landline number</p>
                                     </div>
                                     <div className="input-field">
-                                        <input placeholder="00000/1111111" type="text" />
+                                        <input name="landlineNumber" placeholder="00000/1111111" type="text" onChange={this.handleChange} />
                                     </div>
                                 </div>
                                 <div className="mobilePhoneNumber-input">
@@ -63,7 +92,7 @@ class AddPersonInterface extends React.Component {
                                         <p>Mobile phone number</p>
                                     </div>
                                     <div className="input-field">
-                                        <input placeholder="0152/000000000" type="text" />
+                                        <input name="phoneNumber" placeholder="0152/000000000" type="text" onChange={this.handleChange} />
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +105,7 @@ class AddPersonInterface extends React.Component {
                                         <p>Street</p>
                                     </div>
                                     <div className="input-field">
-                                        <input placeholder="Examplestreet 24" type="text" />
+                                        <input name="street" placeholder="Examplestreet 24" type="text" onChange={this.handleChange} />
                                     </div>
                                 </div>
                                 <div className="postcode-city-input">
@@ -85,7 +114,7 @@ class AddPersonInterface extends React.Component {
                                             <p>Postcode</p>
                                         </div>
                                         <div className="input-field">
-                                            <input placeholder="00000" type="text" />
+                                            <input name="postcode" placeholder="00000" type="text" onChange={this.handleChange} />
                                         </div>
                                     </div>
                                     <div className="city-inputField">
@@ -93,14 +122,14 @@ class AddPersonInterface extends React.Component {
                                             <p>City</p>
                                         </div>
                                         <div className="input-field">
-                                            <input placeholder="Examplecity" type="text" />
+                                            <input name="city" placeholder="Examplecity" type="text" onChange={this.handleChange} />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button className="addBtn">SUBMIT</button>
+                    <button className="addBtn" onClick={this.submitAddPerson}>SUBMIT</button>
                 </div>
             </div>
         )

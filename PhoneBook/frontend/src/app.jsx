@@ -1,11 +1,8 @@
 import React from 'react';
-import './index.css'
 
-import Nav from './components/Nav.js'
-import SearchPersonInterface from './components/SearchPersonInterface/SearchPersonInterface.js'
-import AddPersonInterface from './components/AddPersonInterface/AddPersonInterface.js'
-import DeletePersonInterface from './components/DeletePersonInterface/DeletePersonInterface.js'
-import ModifyPersonInterface from './components/ModifyPersonInterface/ModifyPersonInterface.js'
+import Nav from './components/Nav.jsx'
+import SearchPersonInterface from './components/SearchPersonInterface/SearchPersonInterface.jsx'
+import AddPersonInterface from './components/AddPersonInterface/AddPersonInterface.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -46,8 +43,6 @@ class App extends React.Component {
         <Nav updateSearchPerson={this.updateSearchPerson} updateAddPerson={this.updateAddPerson} />
         <SearchPersonInterface isVisible={this.state.isSearchPersonInterfaceVisible} />
         <AddPersonInterface isVisible={this.state.isAddPersonInterfaceVisible} />
-        <DeletePersonInterface isVisible={this.state.isDeletePersonInterfaceVisible} />
-        <ModifyPersonInterface isVisible={this.state.isModifyPersonInterfaceVisible} />
       </div>
     );
   }

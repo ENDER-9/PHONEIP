@@ -1,12 +1,11 @@
-#include <iostream>
 #include "server.h"
+#include <iostream>
 
 int main () {
 
-    unsigned short port = 3000;
+    unsigned short port = 4000;
     Server server (port);
-    while(true) {
+    while (true) {
         server.start ();
     }
-
 }
