@@ -36,7 +36,7 @@ class AddPersonInterface extends React.Component {
 
         //decide if component is visible or not
         return (
-            <div id="addPersonInterface" className={this.props.isVisible ? "section-visible" : "section-invisible"}>
+            <div id="addPersonInterface" className="routed_section">
                 <div className="topbar">
                     <div className="decideField">
                         <h3>Normal</h3>

@@ -6,7 +6,7 @@ class SearchPersonInterface extends React.Component {
     render() {
         //decide if component is visible or not
         return (
-            <div id="searchPersonInterface" className={this.props.isVisible ? "section-visible" : "section-invisible"}>
+            <div id="searchPersonInterface" className="routed_section">
                 <div className="topbar">
                     <h3>Guten Morgen</h3>
                 </div>
@@ -17,7 +17,7 @@ class SearchPersonInterface extends React.Component {
                     <button className="submitBtn">Search</button>
                 </div>
 
-            </div>
+            </div >
         )
     }
 }
