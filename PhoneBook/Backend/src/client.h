@@ -17,7 +17,7 @@ class Client {
 
 
     private:
-    std::string connectToServer ();
+    void connectToServer ();
     nlohmann::json readServerAnswer ();
     boost::asio::io_context service;
     boost::asio::ip::tcp::endpoint server;

@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "productName": "frontend",
+  "name": "PhoneBook",
+  "productName": "PhoneBook",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/index.js",
@@ -29,25 +29,24 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "npm"
       },
       "electronWinstallerConfig": {
-        "name": "frontend"
+        "name": "PhoneBook"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
       "github_repository": {
-        "owner": "",
-        "name": ""
+        "owner": "Julian Jaksch",
+        "name": "PhoneIp"
       },
       "windowsStoreConfig": {
         "packageName": "",
-        "name": "frontend"
+        "name": "PhoneBook"
       }
     }
   },
   "dependencies": {
-    "bindings": "^1.5.0",
     "electron-compile": "^6.4.4",
     "electron-devtools-installer": "^3.1.1",
     "electron-squirrel-startup": "^1.0.0",

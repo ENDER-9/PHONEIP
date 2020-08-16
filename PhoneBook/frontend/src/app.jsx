@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HashRouter, Route, Link } from "react-router-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
 
 import Nav from './components/Nav.jsx';
 import SearchPersonInterface from './components/SearchPersonInterface/SearchPersonInterface.jsx';
@@ -20,13 +20,13 @@ class App extends React.Component {
     return (
       //giving the functions to Nav component in order to execute them on button click
       //giving the state variables to the specific main components in order to make the visible or not
-      <HashRouter>
+      <Router>
         <div className="origin">
           <Nav />
           <Route path="/searchPersonInterface" component={SearchPersonInterface} />
           <Route path="/addPersonInterface" component={AddPersonInterface} />
         </div>
-      </HashRouter>
+      </Router>
     );
   }
 
