@@ -1,24 +1,32 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import OutputBox from './OutputBox'
+import PersonNotFound from './PersonNotFound'
 import client from '../../../build/Release/client.node'
 
 
 
 
+
 class SearchPersonInterface extends React.Component {
+
     constructor() {
         super()
         this.state = {
             firstName: "",
             lastName: "",
             fullName: "",
-            isOutputBoxesVisible: false,
-            persons: []
+            persons: [],
+            personFound: false,
+            personNotFound: false
+
         }
         this.handleClick = this.handleClick.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.splitString = this.splitString.bind(this)
     }
+
+
     //Changes fullName, when inputField is changed
     handleChange(event) {
         this.setState({
@@ -29,15 +37,26 @@ class SearchPersonInterface extends React.Component {
     //execute the function
     handleClick() {
         let array = [client.sendGetPersonInformationServerJs(this.state.firstName, this.state.lastName)]
-        if (array[0].FirstName === 'Not found') {
 
+        if (array[0].FirstName === "Error connecting") {
+            alert("Error connecting to the server. Maybe it´s offline")
         }
         else {
-            this.setState({
-                persons: array,
-                isOutputBoxesVisible: true
-            })
+            if (array[0].FirstName === 'Not found') {
+                this.setState({
+                    personNotFound: true,
+                    personFound: false
+                })
+            }
+            else {
+                this.setState({
+                    persons: array,
+                    personNotFound: false,
+                    personFound: true
+                })
+            }
         }
+
 
     }
 
@@ -57,8 +76,9 @@ class SearchPersonInterface extends React.Component {
         //decide if component is visible or not
         return (
             <div id="searchPersonInterface" className="routed_section">
+
                 <div className="topbar">
-                    <h3>Guten Morgen</h3>
+
                 </div>
                 <div className="input-textfield">
                     <div className="con-input">
@@ -66,10 +86,16 @@ class SearchPersonInterface extends React.Component {
                     </div>
                     <button className="submitBtn" onClick={this.handleClick}>Search</button>
                 </div>
-                <div className={(this.state.isOutputBoxesVisible) ? "output_boxes_active" : "output_boxes"}>
+
+                <div className={this.state.personFound ? "visible" : "invisible"}>
                     {personComponents}
                 </div>
+                <div className={this.state.personNotFound ? "visible" : "invisible"}>
+                    <PersonNotFound />
+                </div>
+
             </div >
+
         )
     }
 }

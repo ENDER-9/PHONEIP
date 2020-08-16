@@ -82,20 +82,20 @@
     
 }
 
-.output_boxes {
-    height: 10px;
-    width: 10px;
-    visibility: hidden;
-    opacity: 0;
-    overflow-y: auto;
-}
-
-.output_boxes_active {
+.visible {
     width: 65%;
     height: 80%;
     margin: 0 auto;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.invisible {
+    height: 10px;
+    width: 10px;
+    visibility: hidden;
+    opacity: 0;
+    overflow-y: auto;
 }
 
 ::-webkit-scrollbar {
