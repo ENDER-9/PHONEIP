@@ -28,8 +28,10 @@ class AddPersonInterface extends React.Component {
     }
 
     submitAddPerson() {
-        clientModule.sendAddPersonServerJs(this.state.firstName, this.state.lastName, this.state.birthday, this.state.phoneNumber, this.state.landlineNumber, this.state.street, this.state.city, this.state.postcode)
-        console.log("Button pressed")
+        let serverAnswer = clientModule.sendAddPersonServerJs(this.state.firstName, this.state.lastName, this.state.birthday, this.state.phoneNumber, this.state.landlineNumber, this.state.street, this.state.city, this.state.postcode)
+        if (serverAnswer === "Error connecting") {
+            alert("Error connecting to the server. Maybe it´s offline")
+        }
     }
 
     render() {
@@ -39,8 +41,7 @@ class AddPersonInterface extends React.Component {
             <div id="addPersonInterface" className="routed_section">
                 <div className="topbar">
                     <div className="decideField">
-                        <h3>Normal</h3>
-                        <h3>Map</h3>
+
                     </div>
                 </div>
                 <div className="addPerson-textfield">
