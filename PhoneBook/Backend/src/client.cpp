@@ -2,9 +2,8 @@
 #include <iostream>
 
 
-std::string Client::connectToServer () {
+void Client::connectToServer () {
     tcpSocket.connect (server);
-    return "";
 }
 
 nlohmann::json Client::readServerAnswer () {
@@ -30,7 +29,12 @@ std::string Client::sendAddPersonServer (Person& person) {
     personJson["Postcode"] = person.getPostcode ();
     // create json object string
     auto jsonString = personJson.dump ();
-    connectToServer ();
+    try {
+        connectToServer ();
+    } catch (...) {
+        tcpSocket.close ();
+        return "Error connecting";
+    }
     // send json string
     tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
     // read server answer
@@ -71,13 +75,18 @@ std::string Client::sendModifyPersonServer (Person& person) {
     return parsedReturnedJsonString["Message"];
 }
 
-Person Client::sendGetPersonInformationServer (const std::string& firstName, const std::string& lastName) {
+Person Client::sendGetPersonInformationServer (const std::string& firstName, connst std::string& lastName) {
     nlohmann::json personJson;
     personJson["Command"] = "GetPersonInformation";
     personJson["FirstName"] = firstName;
     personJson["LastName"] = lastName;
     auto jsonString = personJson.dump ();
-    connectToServer ();
+    try {
+        connectToServer ();
+    } catch (...) {
+        return Person ("Error connecting", "Error connecting", "Error connecting", "Error connecting", "Error connecting", "Error connecting", "Error connecting", 0);
+    }
+
     tcpSocket.write_some (boost::asio::buffer (jsonString, jsonString.length ()));
     // create Person object with returned json string
     nlohmann::json parsedReturnedJsonString = readServerAnswer ();
