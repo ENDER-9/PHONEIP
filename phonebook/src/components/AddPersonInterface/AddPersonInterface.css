@@ -1,0 +1,127 @@
+.topbar {
+    background: #383B44;
+}
+
+.topbar .decideField {
+    display: flex;
+    width: 200px;
+    justify-content: space-around;
+}
+
+.addPerson-textfield {
+    background: #383B44;
+    width: 65%;
+    height: 70%;
+    padding: 40px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.addPerson-textfield .inner-wrapper {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.addPerson-textfield .inner-wrapper .section-wrapper{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    
+    justify-content: space-between;
+}
+
+.section-wrapper h3 {
+    color: #F0F4F8;
+    font-size: 15px;
+}
+
+/* --------------Person input field--------------------*/
+
+.section-wrapper .person-inputFields {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.person-inputFields .first-lastName-input {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*----------------------Contact information input field---------------------*/
+
+.contaktInformation-inputFields {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/*----------------Address input field-------------------*/
+
+.address-inputFields {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.address-inputFields .postcode-city-input {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addBtn {
+    width: 125px;
+    height: 40px;
+    border-radius: 15px;
+    margin: 0 auto;
+    background: #03CEA4;
+    border: none;
+    outline: none;
+    box-shadow: -1px 3px 5px#26282C;
+    cursor: pointer;
+}
+
+.addBtn:active {
+    box-shadow: 0px 0px 5px 8px#3d4046;
+}
+
+
+
+/*------------------input Field styling---------------------*/
+
+.input-heading {
+    color: #F0F4F8;
+    font-size: 13px;
+}
+
+.input-field input{
+    width: 275px;
+    height: 40px;
+    padding-left: 10px;
+    background: #4D485B;
+    border: none;
+    outline: none;
+    color: #F0F4F8;
+    box-shadow: -1px 3px 5px#26282C;
+    font-size: 15px;
+}
+
+.input-field input:focus {
+    padding-left: 15px;
+    padding-right: 0px;
+}
+
+.input-field input::placeholder {
+    color:#BCCCDC;
+    opacity: 0.5;
+}
