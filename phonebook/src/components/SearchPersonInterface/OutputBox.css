@@ -1,0 +1,44 @@
+.output_box {
+    width: 100%;
+    height: 40%;
+    background: #4D485B;
+    margin-bottom: 40px;
+    box-shadow: -1px 3px 5px#26282C;
+    
+}
+
+.output_box_padding {
+    height: 100%;
+    margin: 70px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.field {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text_field {
+    width: 40%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.address_fields {
+    text-align: right;
+}
+
+/*------------------Font styling-----------------------*/
+
+.name_field h3{
+    font-size: 25px;
+    color: #F0F4F8;
+}
+
+.text_field h5 {
+    font-size: 15px;
+    color: #F0F4F8
+}
