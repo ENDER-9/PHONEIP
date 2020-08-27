@@ -1,8 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import OutputBox from './OutputBox.jsx'
 import PersonNotFound from './PersonNotFound.jsx'
-import client from '../../../build/Debug/client.node'
+import axios from 'axios';
+const Querystring = require('querystring');
 
 
 
@@ -36,29 +36,39 @@ class SearchPersonInterface extends React.Component {
 
     //execute the function
     handleClick() {
-        let array = [client.sendGetPersonInformationServerJs(this.state.firstName, this.state.lastName)]
-
-        if (array[0].FirstName === "Error connecting") {
-            alert("Error connecting to the server. Maybe it´s offline")
-        }
-        else {
-            if (array[0].FirstName === 'Not found') {
-                this.setState({
-                    personNotFound: true,
-                    personFound: false
-                })
-            }
-            else {
-                this.setState({
-                    persons: array,
-                    personNotFound: false,
-                    personFound: true
-                })
+        let body = Querystring['stringify']({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName
+        })
+        //create the config header file for request
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }
 
-
-    }
+        axios.post('http://127.0.0.1:1234/searchPerson', body, config)
+            .then(response => {
+                //open PersonNotFound component
+                if (response.data.firstName === "Not found") {
+                    this.setState({
+                        personNotFound: true,
+                        personFound: false
+                    })
+                }
+                //open Outputbox components
+                else {
+                    this.setState({
+                        persons: response.data,
+                        personNotFound: false,
+                        personFound: true
+                    });
+                }
+            })
+            .catch(function (error) {
+                alert("Error connecting to the server. Maybe it´s offline")
+            })
+    };
 
     //splits the full input into two variables in order to put it in the function
     splitString() {
