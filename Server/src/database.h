@@ -10,7 +10,8 @@
 class Database {
 
     public:
-    Database (const char* fileName, sqlite3 *db) : fileName (fileName), db(db) {
+    Database (const char* fileName, sqlite3* db) : fileName (fileName), db (db) {
+        createTable ();
     }
 
     void openDb (const char* dbName);

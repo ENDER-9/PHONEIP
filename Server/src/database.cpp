@@ -131,6 +131,8 @@ const nlohmann::json Database::getPersonInformation (std::string firstName, std:
     nlohmann::json personList;
     openDb (fileName);
     sqlite3_stmt* stmt;
+
+    //----------------------------------//
     // first check if the Person is in the database
     rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
@@ -138,28 +140,44 @@ const nlohmann::json Database::getPersonInformation (std::string firstName, std:
     }
     sqlite3_bind_text (stmt, 1, firstName.c_str (), firstName.length (), NULL);
     sqlite3_bind_text (stmt, 2, lastName.c_str (), lastName.length (), NULL);
-    // return firstName if it is in the database
 
+    if (sqlite3_step (stmt) != SQLITE_ROW) {
+        closeDb ();
+        nlohmann::json errorPerson;
+        errorPerson["firstName"] = "Not found";
+        errorPerson["lastName"] = "Not found";
+        errorPerson["birthday"] = "Not found";
+        errorPerson["phoneNumber"] = "Not found";
+        errorPerson["landlineNumber"] = "Not found";
+        errorPerson["street"] = "Not found";
+        errorPerson["city"] = "Not found";
+        errorPerson["postcode"] = 0;
+        return errorPerson;
+    }
+
+    //-----------------------------//
+    // select every entry, that was searched
+    sqlite3_stmt* selectStmt;
+    rc = sqlite3_prepare_v2 (db, "SELECT * FROM Person WHERE FirstName = ? AND LastName = ?", -1, &selectStmt, NULL);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Error preparing statement: " << sqlite3_errmsg;
+    }
+    sqlite3_bind_text (selectStmt, 1, firstName.c_str (), firstName.length (), NULL);
+    sqlite3_bind_text (selectStmt, 2, lastName.c_str (), lastName.length (), NULL);
+
+    // if entity is in database fetch data
     for (;;) {
-        rc = sqlite3_step (stmt);
+        rc = sqlite3_step (selectStmt);
+
+
         if (rc == SQLITE_DONE) {
             break;
         }
-        if (rc != SQLITE_ROW) {
-            closeDb ();
-            nlohmann::json errorPerson;
-            errorPerson["FirstName"] = "Not found";
-            errorPerson["LastName"] = "Not found";
-            errorPerson["Birthday"] = "Not found";
-            errorPerson["PhoneNumber"] = "Not found";
-            errorPerson["LandlineNumber"] = "Not found";
-            errorPerson["Street"] = "Not found";
-            errorPerson["City"] = "Not found";
-            errorPerson["Postcode"] = 0;
 
-            return errorPerson;
+        if (rc != SQLITE_ROW) {
             break;
         }
+
 
         const unsigned char* returnedFirstName = sqlite3_column_text (stmt, 1);
         std::string str_returnedFirstName = reinterpret_cast<char const*> (returnedFirstName);
@@ -185,14 +203,14 @@ const nlohmann::json Database::getPersonInformation (std::string firstName, std:
         int returnedPostcode = sqlite3_column_int (stmt, 8);
 
         nlohmann::json singlePerson;
-        singlePerson["FirstName"] = str_returnedFirstName;
-        singlePerson["LastName"] = str_returnedLastName;
-        singlePerson["Birthday"] = str_returnedBirthday;
-        singlePerson["PhoneNumber"] = str_returnedPhoneNumber;
-        singlePerson["LandlineNumber"] = str_returnedPhoneNumber;
-        singlePerson["Street"] = str_returnedStreet;
-        singlePerson["City"] = str_returnedCity;
-        singlePerson["Postcode"] = returnedPostcode;
+        singlePerson["firstName"] = str_returnedFirstName;
+        singlePerson["lastName"] = str_returnedLastName;
+        singlePerson["birthday"] = str_returnedBirthday;
+        singlePerson["phoneNumber"] = str_returnedPhoneNumber;
+        singlePerson["landlineNumber"] = str_returnedPhoneNumber;
+        singlePerson["street"] = str_returnedStreet;
+        singlePerson["city"] = str_returnedCity;
+        singlePerson["postcode"] = returnedPostcode;
 
         personList.push_back (singlePerson);
     }
@@ -200,3 +218,4 @@ const nlohmann::json Database::getPersonInformation (std::string firstName, std:
     closeDb ();
     return personList;
 }
+// return firstName if it is in the database
