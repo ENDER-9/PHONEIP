@@ -1,8 +1,7 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
+const Querystring = require('querystring');
 
-//var clientModule = require("bindings")("client.node");
-//module.exports = clientModule; // Just reexport it
-const clientModule = require('../../../build/Debug/client.node')
 
 class AddPersonInterface extends React.Component {
     constructor() {
@@ -15,7 +14,7 @@ class AddPersonInterface extends React.Component {
             landlineNumber: "",
             street: "",
             city: "",
-            postcode: null
+            postcode: null,
         }
         this.handleChange = this.handleChange.bind(this)
         this.submitAddPerson = this.submitAddPerson.bind(this)
@@ -27,11 +26,26 @@ class AddPersonInterface extends React.Component {
         })
     }
 
-    submitAddPerson() {
-        let serverAnswer = clientModule.sendAddPersonServerJs(this.state.firstName, this.state.lastName, this.state.birthday, this.state.phoneNumber, this.state.landlineNumber, this.state.street, this.state.city, this.state.postcode)
-        if (serverAnswer === "Error connecting") {
-            alert("Error connecting to the server. Maybe it´s offline")
+    async submitAddPerson() {
+        //create the post request Querystring
+        let body = Querystring['stringify']({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            birthday: this.state.birthday,
+            phoneNumber: this.state.phoneNumber,
+            landlineNumber: this.state.landlineNumber,
+            street: this.state.street,
+            city: this.state.city,
+            postcode: this.state.postcode
+        })
+        //create the config header file for request
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         }
+        axios.post('http://127.0.0.1:1234/addPerson', body, config)
+            .then(response => console.log(response.data));
     }
 
     render() {
